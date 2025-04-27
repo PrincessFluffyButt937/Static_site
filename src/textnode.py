@@ -1,6 +1,5 @@
 
 from enum import Enum
-from htmlnode import *
 from functions import extract_markdown_images, extract_markdown_links
 
 class TextType(Enum):
@@ -12,6 +11,7 @@ class TextType(Enum):
     IMAGE = "img"
 
 def text_node_to_html_node(text_node):
+    from htmlnode import LeafNode
     match text_node.text_type:
         case TextType.TEXT:
             return LeafNode(value=text_node.text)
@@ -113,5 +113,4 @@ class TextNode:
 
         
     def __repr__(self):
-        #self alone may need to be adjusted - string format needed TextNode(TEXT, TEXT_TYPE, URL)
         return f"TextNode({self.text}, {self.text_type}, {self.url})"

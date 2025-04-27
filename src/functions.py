@@ -5,3 +5,17 @@ def extract_markdown_images(text):
 
 def extract_markdown_links(text):
     return re.findall(r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)", text)
+
+def markdown_to_blocks(markdown):
+    split_list = markdown.split("\n\n")
+    new_list = []
+    for element in split_list:
+        element = element.strip()
+        if element:
+            if "\n" in element:
+                new_elements = element.split("\n")
+                new_list.append("\n".join([el.strip() for el in new_elements]))
+                continue
+            else:
+                new_list.append(element.strip())
+    return new_list
