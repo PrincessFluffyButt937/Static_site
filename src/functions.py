@@ -19,3 +19,16 @@ def markdown_to_blocks(markdown):
             else:
                 new_list.append(element.strip())
     return new_list
+
+def extract_title(markdown):
+    result = ""
+    for line in markdown.splitlines():
+        line = line.strip()
+        if line:
+            if line.startswith("# "):
+                result = line.lstrip("# ")
+                break
+    if not result:
+        raise Exception("No title was found.")
+    else:
+        return result

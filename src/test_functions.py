@@ -81,3 +81,28 @@ class TestFunctions(unittest.TestCase):
                 "- This is a list\n- with items",
             ],
         )
+
+    def test_title_exctractor0(self):
+        mk = """
+    # Tolkien Fan Club
+
+    ![JRR Tolkien sitting](/images/tolkien.png)
+
+    Here's the deal, **I like Tolkien**.
+
+    """
+        result = extract_title(mk)
+        self.assertEqual(result, "Tolkien Fan Club")
+    
+    def test_title_exctractor1(self):
+        mk = """
+    ## Tolkien Fan Club
+
+    ![JRR Tolkien sitting](/images/tolkien.png)
+
+    Here's the deal, **I like Tolkien**.
+
+    """
+        with self.assertRaises(Exception, msg="No title was found."):
+            extract_title(mk)
+    
