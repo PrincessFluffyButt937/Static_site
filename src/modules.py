@@ -4,32 +4,18 @@ import os, shutil
 from functions import extract_title
 from htmlnode import markdown_to_html_node, LeafNode, ParentNode
 
-def public_clear(public="/home/art/projects/static_site/Static_site/public"):
-    shutil.rmtree(public)
+def copy_files_recursive(source_dir_path, dest_dir_path):
+    if not os.path.exists(dest_dir_path):
+        os.mkdir(dest_dir_path)
 
-def re_copy(source="/home/art/projects/static_site/Static_site/static", target="/home/art/projects/static_site/Static_site/public"):
-    if not os.path.exists(target):
-        os.makedirs(target)
-    files = os.listdir(source)
-    if not files:
-        return
-    dir_list = []
-    tar_dict = {}
-    for file in files:
-        source_path = os.path.join(source, file)
-        target_path = os.path.join(target, file)
-        if os.path.isfile(source_path):
-            shutil.copy(source_path, target)
-            continue
-        tar_dict[target_path] = source_path
-        dir_list.append(target_path)
-        os.makedirs(target_path)
-    if not dir_list:
-        return
-    else:
-        for directory in dir_list:
-            src_path = tar_dict[directory]
-            re_copy(src_path, directory)
+    for filename in os.listdir(source_dir_path):
+        from_path = os.path.join(source_dir_path, filename)
+        dest_path = os.path.join(dest_dir_path, filename)
+        print(f" * {from_path} -> {dest_path}")
+        if os.path.isfile(from_path):
+            shutil.copy(from_path, dest_path)
+        else:
+            copy_files_recursive(from_path, dest_path)
 
 def generate_pages_recursive(dir_path_content, template_path, dest_dir_path):
     for filename in os.listdir(dir_path_content):
